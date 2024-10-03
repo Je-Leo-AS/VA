@@ -1,0 +1,6 @@
+langchain
+langchain-google-genai
+langchain-openai
+langserve[all]
+fastapi
+uvicorn
