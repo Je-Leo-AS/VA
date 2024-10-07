@@ -1,37 +1,25 @@
-import speech_recognition as sr
-import pyttsx3
-from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
-from langchain_google_genai import ChatGoogleGenerativeAI
+from chatboot import *
+from fastapi import FastAPI
+from langserve import add_routes
+from txt2speech import *
 
-# Initialize the recognizer
-r = sr.Recognizer()
+app = FastAPI(title='Meu chat', description='chatboot para uso pessoal')
 
-# Função para capturar áudio e reconhecer fala
-def recognize_speech():
-    with sr.Microphone() as source:
-        print("Fale algo...")
-        audio = r.listen(source)
+add_routes(app, llm, path='/chat')
 
-        try:
-            # Reconhece a fala usando o Google Web Speech API
-            text = r.recognize_google(audio, language="pt-BR")
-            print(f"Você disse: {text}")
-            return text
-        except sr.UnknownValueError:
-            print("Google Web Speech não conseguiu entender o áudio.")
-        except sr.RequestError as e:
-            print(f"Erro ao solicitar resultados do Google Web Speech; {e}")
-        return ""
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, "localhost", 9090)
 
-recognized_text = recognize_speech()
 
-if recognized_text:
-    # Processando o texto com Langchain
-    prompt = PromptTemplate(template="reescrevra esse texto de iutra maneira: {input}", input_variables=["input"])
-    llm = ChatGoogleGenerativeAI(model = "gemini-1.5-pro")
-
-    chain = LLMChain(llm=llm, prompt=prompt)
-    response = chain.run(input=recognized_text)
-
-    print("Resposta da IA:", response)
+while(1):    
+    
+    # Exception handling to handle
+    # exceptions at the runtime
+    audio2 = listen_()
+    if  audio2:
+    # use the microphone as source for input.
+       
+        print(f"Did you say : {recognizer(audio2)}")
+        
+    
