@@ -1,25 +1,9 @@
 # %%
 from dotenv import load_dotenv
-from langchain_core.messages import SystemMessage, HumanMessage
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatMessagePromptTemplate
-from langchain_google_genai import ChatGoogleGenerativeAI
-
 
 load_dotenv()
 
 exemplo = "qual e a capital da mongolia"
-
-
-# %%
-messages = lambda duvida : [SystemMessage('assistente de menssagem, para me ajudar em projetos pessoais de desenvolvedor e no duvidas do  dia a dia, responda a seguinte duvida'), HumanMessage(duvida)]
-
-llm_google = ChatGoogleGenerativeAI(model = "gemini-1.5-pro")
-
-resposta = llm_google.invoke(messages(exemplo))
-
-print(resposta.content)
-# %%
 from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
 # Nome do modelo GPT-Neo local (ou GPT-J, se preferir)
 model_name = "EleutherAI/gpt-neo-2.7B"
@@ -40,10 +24,20 @@ chat_hf = ChatHuggingFace(llm=llm_hf, verbose=True)
 
 
 
+
+def parse_chat_response(response):
+    # Divida a resposta em partes com base nos delimitadores
+    response = response.content
+    user_message = response.split("<|user|>")[-1].split("<|end|>")[0].strip()
+    assistant_message = response.split("<|assistant|>")[-1].strip()
+
+    return {'user' : user_message, 'assistent' : assistant_message}
 # %%
 exemplo = "qual e a capital da mongolia"
 
 response = chat_hf.invoke(exemplo)
-print(response)
 
-# %%
+parser = parse_chat_response(response)
+
+
+print(parser)
