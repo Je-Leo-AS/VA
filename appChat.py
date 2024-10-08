@@ -4,7 +4,7 @@ from langserve import add_routes
 
 app = FastAPI(title='Meu chat', description='chatboot para uso pessoal')
 
-add_routes(app, chat_hf, path='/chat')
+add_routes(app, chain, path='/chat')
 
 if __name__ == "__main__":
     import uvicorn
