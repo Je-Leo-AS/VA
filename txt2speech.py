@@ -43,15 +43,3 @@ def recognizer(audio2):
         return f"Could not request results from Google Speech Recognition service; {e}"
 
 
-
-while(1):    
-    
-    # Exception handling to handle
-    # exceptions at the runtime
-    audio2 = listen_()
-    if  audio2:
-    # use the microphone as source for input.
-       
-        print(f"Did you say : {recognizer(audio2)}")
-        
-    
