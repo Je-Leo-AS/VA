@@ -1,10 +1,9 @@
-# %%
+from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
 from dotenv import load_dotenv
 
 load_dotenv()
 
 exemplo = "qual e a capital da mongolia"
-from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
 # Nome do modelo GPT-Neo local (ou GPT-J, se preferir)
 model_name = "EleutherAI/gpt-neo-2.7B"
 
@@ -22,9 +21,6 @@ llm_hf = HuggingFacePipeline.from_model_id(
 # Usar em uma cadeia de conversação ou outro tipo de fluxo
 chat_hf = ChatHuggingFace(llm=llm_hf, verbose=True)
 
-
-
-
 def parse_chat_response(response):
     # Divida a resposta em partes com base nos delimitadores
     response = response.content
@@ -33,11 +29,11 @@ def parse_chat_response(response):
 
     return {'user' : user_message, 'assistent' : assistant_message}
 # %%
-exemplo = "qual e a capital da mongolia"
+if __name__ == "__main__":
+    exemplo = "qual e a capital da mongolia"
 
-response = chat_hf.invoke(exemplo)
+    response = chat_hf.invoke(exemplo)
 
-parser = parse_chat_response(response)
+    parser = parse_chat_response(response)
 
-
-print(parser)
+    print(parser)
