@@ -20,6 +20,21 @@ app.add_middleware(
 
 add_routes(app, chain, path='/chat')
 
+@app.get("/chat")
+async def serve_index():
+    return FileResponse("index.html", media_type="text/html")
+
+@app.post("/chat")
+async def chat(request: Request):
+    data = await request.json()
+    message = data["message"]
+    response = chain.invoke({'quest' : message})
+    return {"response": response}
+
+@app.get("/chat/history")
+async def chat(request: Request):
+    return {"chat_history": []}
+
 if __name__ == "__main__":
     import uvicorn
     import nest_asyncio

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Chat</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #f9f9f9;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+    .chat-message {
+      margin-bottom: 10px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+    }
+    .chat-message .username {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .chat-message .message {
+      font-size: 16px;
+    }
+    .input-container {
+      display: flex;
+      flex-direction: row;
+      padding: 10px;
+    }
+    .input-container input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+    }
+    .input-container button {
+      margin-left: 10px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Meu Chat</h1>
+    <div class="chat-container">
+      <div id="chat-messages"></div>
+      <div class="input-container">
+        <input id="input-message" type="text" placeholder="Digite sua mensagem aqui...">
+        <button id="send-message">Enviar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const chatMessages = document.getElementById('chat-messages');
+    const inputMessage = document.getElementById('input-message');
+    const sendMessage = document.getElementById('send-message');
+
+    // Função para adicionar uma mensagem ao chat
+    function addMessage(username, message, isMarkdown = false) {
+      const chatMessage = document.createElement('div');
+      chatMessage.classList.add('chat-message');
+      chatMessage.innerHTML = `
+        <span class="username">${username}</span>
+        <span class="message">${ marked(message)}</span>
+      `;
+      chatMessages.appendChild(chatMessage);
+      chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll automático para o final
+    }
+
+    // Evento de envio de mensagem
+    sendMessage.addEventListener('click', async () => {
+      const message = inputMessage.value.trim();
+      if (message) {
+        // Adiciona a mensagem do usuário ao chat
+        addMessage('Você', message, true);
+
+        // Envia a mensagem para o backend
+        const response = await fetch('/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message }),
+        });
+        const data = await response.json();
+
+        // Adiciona a resposta do bot ao chat
+        addMessage('Chat', data.response, true);
+
+        inputMessage.value = ''; // Limpa o campo de entrada
+      }
+    });
+
+    // Carrega o histórico do chat do backend
+    async function loadChat() {
+      const response = await fetch('/chat/history');
+      const data = await response.json();
+      const chatHistory = data.chat_history;
+
+      chatHistory.forEach((message) => {
+        addMessage(message.username, message.message, true);
+      });
+    }
+
+    // Carrega o histórico ao iniciar
+    loadChat();
+  </script>
+</body>
+</html>
