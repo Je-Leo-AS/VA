@@ -2,6 +2,7 @@
 from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser,SimpleJsonOutputParser
+from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
 
@@ -22,6 +23,14 @@ llm_hf = HuggingFacePipeline.from_model_id(
     },
 )
 
+
+
+llm_groq = ChatGroq(
+    model="mixtral-8x7b-32768",
+    temperature=0.0,
+    max_retries=2,
+    # other params...
+)
 parser = StrOutputParser()
 
 # Usar em uma cadeia de conversação ou outro tipo de fluxo
@@ -39,7 +48,8 @@ msg_tmpl = ChatPromptTemplate([
             ('human', '{quest}')])
 
 
-chain = msg_tmpl | chat_hf |  parser | (lambda response: parse_chat_response(response))
+# chain = msg_tmpl | chat_hf |  parser | (lambda response: parse_chat_response(response))
+chain = msg_tmpl | llm_groq |  parser | (lambda response: parse_chat_response(response))
 
 
 # %%
