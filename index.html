@@ -6,7 +6,7 @@
   <title>Meu Chat</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
   <style>
     body {
       font-family: 'Open Sans', sans-serif;
@@ -85,7 +85,7 @@
       chatMessage.classList.add('chat-message');
       chatMessage.innerHTML = `
         <span class="username">${username}</span>
-        <span class="message">${ marked(message)}</span>
+        <span class="message">${message}</span>
       `;
       chatMessages.appendChild(chatMessage);
       chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll automático para o final
