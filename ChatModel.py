@@ -12,7 +12,6 @@ exemplo = "qual e a capital da mongolia"
 model_name = "EleutherAI/gpt-neo-2.7B"
 
 
-
 llm_groq = ChatGroq(
     model="mixtral-8x7b-32768",
     temperature=0.0,
@@ -41,48 +40,17 @@ msg_tmpl = ChatPromptTemplate([
         - Destaque trechos importantes ou termos técnicos relevantes.
         
      2. **Markdown e Códigos:**  
-        - Quando a resposta incluir código, utilize blocos de markdown e destaque a linguagem do código:
+        - Sempre que a resposta incluir código, utilize blocos de markdown e destaque a linguagem do código utilizando a notação (```nome da linguagem código ```) como por exemplo:
           ```python
           # Exemplo de código Python
           print("Olá, mundo!")
           ```
         - Adicione uma opção visual de **"Copiar"** para facilitar a usabilidade.
-        - Sinalize que o usuário pode copiar o conteúdo colocando `[Copiar ➤]` logo abaixo do bloco de código.
+        - Caso eu peça para reescrever um texto Adicione uma opção visual de **"Copiar"** para facilitar a usabilidade.
+        - Os blocos de texto/códigos devem estar separados por linhas em branco. E deve ter um botão de copiar para facilitar a usuabilidade.
+        
+     3. **Markdown e Texto:**
 
-     3. **Exemplo de Resposta Técnica:**  
-
-        **Título:** Como criar um servidor HTTP simples em Python
-
-        1. Abra o terminal e crie um novo arquivo:
-        ```bash
-        touch servidor.py
-        ```
-        [Copiar ➤]
-
-        2. No arquivo `servidor.py`, adicione o seguinte código:
-        ```python
-        # servidor.py
-        from http.server import SimpleHTTPRequestHandler, HTTPServer
-
-        host = 'localhost'
-        port = 8080
-
-        class ServidorHandler(SimpleHTTPRequestHandler):
-            pass  # Herda comportamento padrão
-
-        with HTTPServer((host, port), ServidorHandler) as server:
-            server.serve_forever()
-        ```
-        [Copiar ➤]
-
-        3. **Explicação:**  
-           - O código cria um servidor HTTP básico usando o módulo embutido `http.server`.
-           - Ele escuta na porta 8080 e exibe a URL para acesso.
-           - Para interromper o servidor, pressione `Ctrl + C`.
-
-        4. **Erro Comum:**  
-           - Se a porta 8080 já estiver em uso, aparecerá: `OSError: [Errno 98] Address already in use`.
-           - **Solução:** Altere para outra porta disponível, como 8081.
 
      4. **Comportamento Padrão:**  
         - Responda perguntas complexas com exemplos claros e bem explicados.
