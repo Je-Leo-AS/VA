@@ -8,8 +8,6 @@ from langchain_core.prompts import ChatPromptTemplate
 load_dotenv()
 
 exemplo = "qual e a capital da mongolia"
-# Nome do modelo GPT-Neo local (ou GPT-J, se preferir)
-model_name = "EleutherAI/gpt-neo-2.7B"
 
 
 llm_groq = ChatGroq(
@@ -39,19 +37,15 @@ msg_tmpl = ChatPromptTemplate([
         - Forneça exemplos práticos e relevantes.
         - Destaque trechos importantes ou termos técnicos relevantes.
         
-     2. **Markdown e Códigos:**  
+     2. **Markdown:**  
         - Sempre que a resposta incluir código, utilize blocos de markdown e destaque a linguagem do código utilizando a notação (```nome da linguagem código ```) como por exemplo:
           ```python
           # Exemplo de código Python
           print("Olá, mundo!")
           ```
-        - Adicione uma opção visual de **"Copiar"** para facilitar a usabilidade.
-        - Caso eu peça para reescrever um texto Adicione uma opção visual de **"Copiar"** para facilitar a usabilidade.
-        - Os blocos de texto/códigos devem estar separados por linhas em branco. E deve ter um botão de copiar para facilitar a usuabilidade.
+        - Adicione um botão de **"Copiar"** o codigo para facilitar a usabilidade.
+        - Caso eu peça para reescrever um texto Adicione um botão de **"Copiar"** para facilitar a usabilidade.
         
-     3. **Markdown e Texto:**
-
-
      4. **Comportamento Padrão:**  
         - Responda perguntas complexas com exemplos claros e bem explicados.
         - Organize a informação para que seja de fácil leitura e prática de aplicar.

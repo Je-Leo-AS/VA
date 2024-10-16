@@ -70,6 +70,19 @@
       border-radius: 10px;
       cursor: pointer;
     }
+
+    .copy-button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .copy-button:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 
@@ -95,11 +108,34 @@
       const chatMessage = document.createElement('div');
       chatMessage.classList.add('chat-message');
       const htmlContent = isMarkdown ? marked.parse(message) : message;
-      console.log(message, htmlContent);
+      // Adicionar função para copiar texto
+
+
       chatMessage.innerHTML = `
         <span class="username">${username}</span>
         <div class="message">${htmlContent}</div>
+        ${username === 'Chat' ? '<button class="copy-button">Copiar</button>' : ''}
       `;
+
+      const copyButton = chatMessage.querySelector('.copy-button');
+      if (copyButton) {
+        copyButton.addEventListener('click', function () {
+          const text = chatMessage.querySelector('.message').textContent;
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText('texto de teste')
+              .then(() => {
+                const text = chatMessage.querySelector('.message').textContent;
+                navigator.clipboard.writeText(text);
+                alert('Texto copiado para a área de transferência!');
+              })
+              .catch(() => {
+                alert('Permissão negada para acessar a área de transferência');
+              });
+          } else {
+            alert('O navegador não suporta a API de clipboard');
+          }
+        });
+      }
       chatMessages.appendChild(chatMessage);
       chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll automático para o final
     }
