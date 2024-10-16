@@ -156,7 +156,7 @@
         const data = await response.json();
 
         // Adiciona a resposta do bot ao chat
-        addMessage('Chat', data.response, true);
+        addMessage('Chat', data.response, false);
 
         inputMessage.value = ''; // Limpa o campo de entrada
       }
