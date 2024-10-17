@@ -104,16 +104,13 @@
     const sendMessage = document.getElementById('send-message');
 
     // Função para adicionar uma mensagem ao chat
-    function addMessage(username, message, isMarkdown = false) {
+    function addMessage(username, message) {
       const chatMessage = document.createElement('div');
       chatMessage.classList.add('chat-message');
-      const htmlContent = isMarkdown ? marked.parse(message) : message;
-      // Adicionar função para copiar texto
-
 
       chatMessage.innerHTML = `
         <span class="username">${username}</span>
-        <div class="message">${htmlContent}</div>
+        <div class="message">${message}</div>
         ${username === 'Chat' ? '<button class="copy-button">Copiar</button>' : ''}
       `;
 
@@ -145,7 +142,7 @@
       const message = inputMessage.value.trim();
       if (message) {
         // Adiciona a mensagem do usuário ao chat
-        addMessage('Você', message, false);
+        addMessage('Você', message);
 
         // Envia a mensagem para o backend
         const response = await fetch('/chat', {
@@ -156,7 +153,7 @@
         const data = await response.json();
 
         // Adiciona a resposta do bot ao chat
-        addMessage('Chat', data.response, false);
+        addMessage('Chat', data.response);
 
         inputMessage.value = ''; // Limpa o campo de entrada
       }
@@ -169,7 +166,7 @@
       const chatHistory = data.chat_history;
 
       chatHistory.forEach((message) => {
-        addMessage(message.username, message.message, true);
+        addMessage(message.username, message.message);
       });
     }
 

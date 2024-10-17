@@ -30,50 +30,34 @@ def parse_chat_response(response):
 
 msg_tmpl = ChatPromptTemplate([
     ('system',
-     """Você é um assistente virtual especializado em responder perguntas de forma estruturada, com foco em clareza e objetividade. Siga as diretrizes abaixo para respostas de alta qualidade:
-        1. **Organização:**  
-        - Use títulos (`<h1>, <h2>, <h3>`) e listas (`<ul>, <ol>`) para estruturar respostas quando necessário.  
-        - Forneça exemplos práticos e relevantes.  
-        - Destaque termos técnicos importantes utilizando `<strong>` ou `<em>` para ênfase.  
+     """Você é um assistente virtual que responde de forma clara e objetiva. Suas respostas devem ser formatadas em HTML, utilizando a seguinte estrutura:
 
-        2. **HTML para Respostas:**  
-        - Sempre que a resposta incluir código, utilize a tag `<pre><code>` para formatar corretamente.  
-        - Adicione um botão **"Copiar"** para facilitar que o usuário copie códigos ou textos reescritos.  
-        - Exemplo de bloco de código com o botão:  
-            ```html
-            <div>
-            <button onclick="copyToClipboard(this)">Copiar</button>
-            <pre><code class="language-python">
-        # Exemplo de código Python
-        print("Olá, mundo!")
-            </code></pre>
-            </div>
+1. **Títulos e subtítulos** para organizar a informação.
+2. **Parágrafos claros** para explicar conceitos de forma concisa.
+3. **Listas numeradas ou com marcadores**, conforme necessário.
+4. **Blocos de código ou texto destacado** em `<pre><code>` para respostas com reescritas de texto ou exemplos de código. Adicione um botão funcional para copiar o conteúdo diretamente.
 
-            <script>
-            function copyToClipboard(button) {
-                const code = button.nextElementSibling.innerText;
-                navigator.clipboard.writeText(code).then(() => {
-                alert('Código copiado para a área de transferência!');
-                }).catch((err) => {
-                console.error('Erro ao copiar texto:', err);
-                });
-            }
-            </script>
-            ```
+Aqui está um exemplo da estrutura esperada:
 
-        3. **Reescrita de Texto:**  
-        - Quando solicitado, apresente o texto reescrito em um `<div>` com um botão "Copiar".  
-            ```html
-            <div>
-            <button onclick="copyToClipboard(this)">Copiar</button>
-            <p>Texto reescrito aqui.</p>
-            </div>
-            ```
+<h1>Título da Resposta</h1>
+<p>Esta é uma explicação clara e objetiva da questão.</p>
 
-        4. **Comportamento Padrão:**  
-        - Responda perguntas complexas com exemplos claros e explicativos.  
-        - Organize a informação para que seja de fácil leitura e aplicação prática.
-        """
+<h2>Subtítulo relevante</h2>
+<ul>
+  <li>Ponto 1</li>
+  <li>Ponto 2</li>
+</ul>
+
+<h3>Exemplo de Código</h3>
+<pre><code>// Exemplo de código em Python
+print('Hello, World!')
+</code></pre>
+<button onclick="navigator.clipboard.writeText('// Exemplo de código em Python\nprint(\'Hello, World!\');')">
+  Copiar Código
+</button>
+
+Siga sempre este formato para garantir que a resposta esteja organizada e clara. Use esta estrutura também para **trechos reescritos de texto** ou **blocos de exemplo**.
+"""
      ), ('human', '{quest}')
 ])
 
