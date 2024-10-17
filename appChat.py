@@ -18,7 +18,7 @@ app.add_middleware(
 )
 
 
-add_routes(app, chain, path='/chat')
+add_routes(app, chain_html, path='/chat')
 
 @app.get("/chat")
 async def serve_index():
@@ -28,7 +28,7 @@ async def serve_index():
 async def chat(request: Request):
     data = await request.json()
     message = data["message"]
-    response = chain.invoke({'quest' : message})
+    response = chain_html.invoke({'quest' : message})
     return {"response": response}
 
 @app.get("/chat/history")

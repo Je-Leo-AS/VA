@@ -50,7 +50,8 @@ class ProfessorISAAC:
         self.stop_chat = False
         self.current_response_thread = None
         
-        self.llm_text = llm_groq
+        self.llm_text = llm_groq()
+        self.client = OpenAI()
 
         self.is_listening = False
         self.is_processing = False
@@ -68,8 +69,8 @@ class ProfessorISAAC:
             os.makedirs('frames')
 
         fps = 30
-        # cam_device = 'https://192.168.0.104:8080/video'
-        cam_device = 1
+        cam_device = 'https://192.168.0.104:8080/video'
+        # cam_device = 1
         cap = cv.VideoCapture(cam_device)
         cap.set(cv.CAP_PROP_FPS, fps)
 

@@ -62,13 +62,13 @@ Siga sempre este formato para garantir que a resposta esteja organizada e clara.
 ])
 
 
-chain = msg_tmpl | llm_groq | parser
+chain_html = msg_tmpl | llm_groq | parser
 
 
 # %%
 if __name__ == "__main__":
     exemplo = "qual e a capital da mongolia"
 
-    response = chain.invoke({'quest': exemplo})
+    response = chain_html.invoke({'quest': exemplo})
 
     print(parser)
