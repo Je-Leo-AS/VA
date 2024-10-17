@@ -15,22 +15,22 @@ caminho_imagem = "teste.png"
 def carregar_imagem(caminho_imagem):
     """Carrega uma imagem do disco e a converte para Base64."""
     with open(caminho_imagem, "rb") as imagem:
-        # Lê a imagem e a codifica em Base64
         return imagem.read()
 
 
-image = genai.upload_file(caminho_imagem, mime_type="image/png")
 
-image = {"mime_type": "image/png", "data": carregar_imagem(caminho_imagem)}
-chat_session = model_genai.start_chat(history=[{"role": "user", "parts": [image]}])
-response = chat_session.send_message("descreva essa imagem com detalhes, por exemplo que esta escrito? que formas voce? tem alguma coisa escrita?")
-
-print("Reconhecimento de Imagem:", response.text)
+def recognizer_image(image_array, message):
+    chat_session = model_genai.start_chat(history=[{"role": "user", "parts": [ {"mime_type": "image/png", "data": image_array}]}])
+    return chat_session.send_message(message)
 
 
 # %%
-def recognizer_image(image_array, message):
-    chat_session = model_genai.start_chat(history=[{"role": "user", "parts": [image_array]}])
-    return chat_session.send_message(message)
+
+if __name__ == "__main__":
+    quest = "descreva essa imagem com detalhes, por exemplo que esta escrito? que formas voce? tem alguma coisa escrita?"
+
+    response = recognizer_image(carregar_imagem(caminho_imagem),quest)
+
+    print("Reconhecimento de Imagem:", response.text)
 
 # %%
