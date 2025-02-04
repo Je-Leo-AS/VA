@@ -2,6 +2,7 @@
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser, SimpleJsonOutputParser
 from langchain_groq import ChatGroq
+from langchain_ollama.chat_models import ChatOllama
 from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
 
@@ -10,12 +11,11 @@ load_dotenv()
 exemplo = "qual e a capital da mongolia"
 
 
-llm_groq = ChatGroq(
-    model="mixtral-8x7b-32768",
-    temperature=0.0,
-    max_retries=2,
-    # other params...
+llm = ChatOllama(
+    model="deepseek-chat",  # Substitua pelo nome do modelo que você baixou
+    base_url="http://localhost:11434",  # URL do Ollama rodando localmente
 )
+
 parser = StrOutputParser()
 
 
@@ -62,7 +62,7 @@ Siga sempre este formato para garantir que a resposta esteja organizada e clara.
 ])
 
 
-chain_html = msg_tmpl | llm_groq | parser
+chain_html = msg_tmpl | llm | parser
 
 
 # %%
